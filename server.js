@@ -17,10 +17,17 @@ app.get('/', (req, res) => {
 });
 const authRoutes = require('./routes/authRoutes'); 
 const trackingRoutes = require('./routes/trackingRoutes');
+const learningRoutes = require('./routes/learningRoutes');
+const exerciseRoutes = require('./routes/exerciseRoutes');
+const schedulingRoutes = require('./routes/schedulingRoutes');
+const NotificationWorker = require('./services/NotificationWorker');
 // <-- NEW LINE 1: Import the routes
 app.use('/api/auth', authRoutes);
 
 app.use('/api/track', trackingRoutes);
+app.use('/api/learning', learningRoutes);
+app.use('/api/exercises', exerciseRoutes);
+app.use('/api/schedule', schedulingRoutes);
 
 // Test DB connection on startup
 db.getConnection()
@@ -31,6 +38,8 @@ db.getConnection()
         app.listen(PORT, () => {
             console.log(`[Server] Server running on http://localhost:${PORT}`);
             console.log(`[Project] Goal: Implement Auth, Profiles, Tracking, and Scheduling.`);
+            // Start background worker for notifications (every minute)
+            NotificationWorker.start(60000);
         });
     })
     .catch(err => {

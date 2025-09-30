@@ -30,7 +30,7 @@ CREATE TABLE UserProfiles (
 -- 3. LearningModules Table (Goal-specific content)
 CREATE TABLE LearningModules (
     module_id INT AUTO_INCREMENT PRIMARY KEY,
-    goal ENUM('Weight Loss', 'Muscle Gain', 'Mental Peace') UNIQUE NOT NULL,
+    goal ENUM('Weight Loss', 'Muscle Gain', 'Mental Peace')  NOT NULL,
     title VARCHAR(255) NOT NULL,
     content TEXT NOT NULL -- The learning process/guide for the specific goal
 );

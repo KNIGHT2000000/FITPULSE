@@ -1,0 +1,25 @@
+{
+	"folders": [
+		{
+			"path": "../config"
+		},
+		{
+			"path": "../controllers"
+		},
+		{
+			"path": "../middleware"
+		},
+		{
+			"path": "../models"
+		},
+		{
+			"path": "../node_modules"
+		},
+		{
+			"path": "../routes"
+		},
+		{
+			"path": "."
+		}
+	]
+}
