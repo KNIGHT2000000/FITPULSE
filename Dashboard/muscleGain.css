@@ -1,0 +1,180 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+.navbar{
+    height: 5rem;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.899);
+    display: flex;
+}
+.content{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap:3rem;
+    position: absolute;
+    right: 2rem;
+    margin-top: 1rem;
+    font-size: 1.7rem;
+    cursor: pointer;
+}
+.content a{
+    color:rgb(200, 200, 200);
+    text-decoration: none;
+}
+.content a:hover{
+    color: white;
+    transform: scale(1.1);
+    transition: transform 0.3s ease-in-out;
+}
+.profile{
+    height: 3rem;
+    width: 7rem;
+    border: 2px solid white;
+    border-radius: 4rem;
+    display: flex;
+    font-size: 1.5rem;
+    justify-content: center;
+    align-items: center;
+    margin-left: 2rem;
+    font-weight: 600;
+    background-color: lightgray;
+    color:rgb(63, 63, 63);
+    cursor: pointer;
+}
+.profile:hover{
+        transform: scale(1.1);
+    transition: transform 0.3s ease-in-out;
+}
+.image{
+    height: 48rem;
+    width: 100%;
+    background-image: url("fitness.jpg");
+    background-size: cover;
+}
+.name{
+    color:rgb(137, 137, 137);
+    position: absolute;
+    left: 2rem;
+    top:0.5rem;
+    font-size: 3rem;
+    font-weight: 600;
+    font-style: italic;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
+.main-content1{
+    display: flex;
+}
+.box1{
+    position: absolute;
+    margin-top: 3rem;
+    margin-left: 2rem;
+    height: 22rem;
+    width: 55rem;
+    background-color: rgb(118, 118, 118);
+    border-radius: 2rem;
+    opacity: 0.9;
+    background-image: url("muscle.jpg");
+    background-size: cover;
+    color:white;
+}
+.box3{
+    position: absolute;
+    margin-top: 27rem;
+    margin-left: 2rem;
+    height: 16rem;
+    width: 35rem;
+    background-color: rgb(118, 118, 118);
+    border-radius: 2rem;
+    opacity: 0.9;
+    background-image: url("calories.jpg");
+    background-size: cover;
+    color:white;
+    
+}
+.box4{
+    position: absolute;
+    margin-top: 27rem;
+    margin-left: 38rem;
+    height: 16rem;
+    width: 20rem;
+    background-color: rgb(118, 118, 118);
+    border-radius: 2rem;
+    opacity: 0.9;
+    background-image: url("sleep.jpg");
+    background-size: cover;
+    color:white;
+}
+.BoxContent{
+    text-align: left;
+    margin-left: 1.4rem;
+    font-size: 1.8rem;
+    margin-top:1rem;
+    font-family:'Times New Roman';
+    font-weight:1000;
+}
+.box1:hover, .box3:hover, .box4:hover{
+    transform: scale(1.1);
+    transition: transform 0.6s ease-in-out;
+}
+.btn1{
+    height: 2.5rem;
+    width: 8rem;
+    border: 2px solid white;
+    border-radius: 4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    background-color: white;
+    position: absolute;
+    right: 2rem;
+    bottom:1rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+.btn1:hover{
+    background-color:rgb(158, 158, 158);
+}
+.btn4{
+    height: 2.5rem;
+    width: 8rem;
+    border: 2px solid white;
+    border-radius: 4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    background-color: white;
+    position: absolute;
+    right: 2rem;
+    bottom:1rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+.btn4:hover{
+    background-color:rgb(158, 158, 158);
+}
+.btn3{
+    height: 2.5rem;
+    width: 8rem;
+    border: 2px solid white;
+    border-radius: 4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    background-color: white;
+    position: absolute;
+    right: 2rem;
+    bottom:1rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+.btn3:hover{
+    background-color:rgb(158, 158, 158);
+}
