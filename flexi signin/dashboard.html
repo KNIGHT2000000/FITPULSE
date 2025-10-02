@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fit Pulse - Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .dashboard-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        .welcome-message {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .dashboard-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 10px 0;
+            border-bottom: 2px solid #eee;
+        }
+        .logout-btn {
+            background: #dc3545;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .logout-btn:hover {
+            background: #c82333;
+        }
+        .dashboard-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .feature-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #dee2e6;
+        }
+        .feature-card h3 {
+            color: #495057;
+            margin-bottom: 10px;
+        }
+        .feature-card p {
+            color: #6c757d;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="dashboard-nav">
+            <h1>Fit Pulse Dashboard</h1>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+        
+        <div class="welcome-message">
+            <h2 id="welcomeText">Welcome to Fit Pulse!</h2>
+            <p>Your fitness journey starts here.</p>
+        </div>
+
+        <div class="dashboard-features">
+            <div class="feature-card">
+                <h3>🎯 Goal Tracking</h3>
+                <p>Track your fitness goals and monitor progress towards achieving them.</p>
+            </div>
+            <div class="feature-card">
+                <h3>🍎 Nutrition</h3>
+                <p>Log your meals and track your daily calorie intake and nutrition.</p>
+            </div>
+            <div class="feature-card">
+                <h3>💪 Exercise</h3>
+                <p>Access personalized workout plans based on your fitness goals.</p>
+            </div>
+            <div class="feature-card">
+                <h3>😴 Sleep</h3>
+                <p>Monitor your sleep patterns and improve your rest quality.</p>
+            </div>
+            <div class="feature-card">
+                <h3>📊 Analytics</h3>
+                <p>View detailed reports and insights about your fitness progress.</p>
+            </div>
+            <div class="feature-card">
+                <h3>🔔 Reminders</h3>
+                <p>Get personalized notifications and motivational messages.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check if user is logged in
+        document.addEventListener('DOMContentLoaded', function() {
+            const token = localStorage.getItem('authToken');
+            const userEmail = localStorage.getItem('userEmail');
+            
+            if (!token) {
+                // Redirect to login if no token
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // Update welcome message with user email
+            if (userEmail) {
+                document.getElementById('welcomeText').textContent = `Welcome back, ${userEmail}!`;
+            }
+        });
+
+        function logout() {
+            // Clear stored authentication data
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userEmail');
+            
+            // Redirect to login page
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>

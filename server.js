@@ -2,32 +2,51 @@
 require('dotenv').config();
 
 const express = require('express');
+const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware to parse JSON request bodies
 app.use(express.json());
 
-// --- Database Connection Setup (Placeholder - will be implemented in db.js) ---
-const db = require('./config/db'); // We will create this file next
-
-// Simple health check endpoint
-app.get('/', (req, res) => {
-    res.status(200).send('Fitness Tracker API is running.');
+// CORS middleware to allow frontend to communicate with backend
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+    if (req.method === 'OPTIONS') {
+        res.sendStatus(200);
+    } else {
+        next();
+    }
 });
+
+// --- Database Connection Setup ---
+const db = require('./config/db');
+
+// Import routes
 const authRoutes = require('./routes/authRoutes'); 
 const trackingRoutes = require('./routes/trackingRoutes');
 const learningRoutes = require('./routes/learningRoutes');
 const exerciseRoutes = require('./routes/exerciseRoutes');
 const schedulingRoutes = require('./routes/schedulingRoutes');
 const NotificationWorker = require('./services/NotificationWorker');
-// <-- NEW LINE 1: Import the routes
+
+// API Routes (must come before static files)
 app.use('/api/auth', authRoutes);
 
 app.use('/api/track', trackingRoutes);
 app.use('/api/learning', learningRoutes);
 app.use('/api/exercises', exerciseRoutes);
 app.use('/api/schedule', schedulingRoutes);
+
+// Serve static files from the flexi signin directory (after API routes)
+app.use(express.static(path.join(__dirname, 'flexi signin')));
+
+// Simple health check endpoint
+app.get('/', (req, res) => {
+    res.status(200).send('Fitness Tracker API is running.');
+});
 
 // Test DB connection on startup
 db.getConnection()

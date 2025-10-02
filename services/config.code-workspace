@@ -20,6 +20,13 @@
 		},
 		{
 			"path": "."
+		},
+		{
+			"path": "../flexi signin"
 		}
-	]
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "flexi signin",
+		"liveServer.settings.port": 5501
+	}
 }
