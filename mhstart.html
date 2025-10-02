@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mental Health Awareness</title>
+  <link rel="stylesheet" href="mhstart.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="logo">MindCare</div>
+  </nav>
+
+  <header class="hero">
+    <div class="overlay"></div>
+    <div class="hero-content">
+      <h1>🧠 Prioritize Your Mind, Embrace Wellness</h1>
+      <p class="highlight">Why is mental health important?</p>
+
+      <div class="benefits-grid">
+        <div class="card">
+          <h3>💬 Open Conversations</h3>
+          <p>Engage in discussions to reduce stigma and promote understanding.</p>
+        </div>
+        <div class="card">
+          <h3>🌿 Self-Care Practices</h3>
+          <p>Incorporate activities that nurture your mental well-being.</p>
+        </div>
+        <div class="card">
+          <h3>🤝 Support Systems</h3>
+          <p>Build a network of friends, family, and professionals.</p>
+        </div>
+        <div class="card">
+          <h3>🧘 Mindfulness Techniques</h3>
+          <p>Practice mindfulness to stay present and manage stress.</p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  
+  <main style="height: 500px; background: #fff;"></main>
+
+  <script>
+    const cards = document.querySelectorAll('.card');
+    cards.forEach(card => {
+      card.addEventListener('click', () => {
+      
+        cards.forEach(c => c.classList.remove('glow'));
+        
+        card.classList.add('glow');
+      });
+    });
+  </script>
+</body>
+</html>
