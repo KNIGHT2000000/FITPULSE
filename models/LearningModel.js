@@ -11,13 +11,18 @@ class LearningModel {
      * @returns {Promise<string|null>} The user's goal (e.g., 'Weight Loss') or null.
      */
     static async getUserGoal(userId) {
+        console.log('LearningModel: Getting goal for user:', userId); // Debug log
         const query = 'SELECT goal FROM UserProfiles WHERE user_id = ?';
         const [rows] = await pool.query(query, [userId]);
+        console.log('LearningModel: UserProfiles query result:', rows); // Debug log
+        
         if (!rows.length) {
             return null;
         }
         const goal = rows[0].goal;
-        return typeof goal === 'string' ? goal.trim() : goal;
+        const trimmedGoal = typeof goal === 'string' ? goal.trim() : goal;
+        console.log('LearningModel: Final goal:', trimmedGoal); // Debug log
+        return trimmedGoal;
     }
 
     /**
@@ -27,8 +32,11 @@ class LearningModel {
      */
     static async getModuleByGoal(goal) {
         const normalizedGoal = typeof goal === 'string' ? goal.trim() : goal;
+        console.log('LearningModel: Getting module for goal:', normalizedGoal); // Debug log
         const query = 'SELECT title, content FROM learningmodules WHERE LOWER(goal) = LOWER(?) LIMIT 1';
+        console.log('LearningModel: Executing query:', query, 'with goal:', normalizedGoal); // Debug log
         const [rows] = await pool.query(query, [normalizedGoal]);
+        console.log('LearningModel: Learning module query result:', rows); // Debug log
         return rows.length ? rows[0] : null;
     }
 }

@@ -13,6 +13,9 @@ router.use(auth);
 // GET /api/exercises/top -> returns up to 3 exercises for the user's goal
 router.get('/top', exerciseController.getTopExercises);
 
+// GET /api/exercises/dashboard -> returns exercises and learning module for exercise page
+router.get('/dashboard', exerciseController.getExerciseDashboard);
+
 module.exports = router;
 
 

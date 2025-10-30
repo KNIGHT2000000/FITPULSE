@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Redirect to dashboard after 1.5 seconds
                 setTimeout(() => {
-                    window.location.href = 'dashboard.html';
+                    window.location.href = '/dashboard/dashboard.html';
                 }, 1500);
             } else {
                 showMessage(data.message || 'Login failed. Please check your credentials.', 'error');
@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Optionally verify token with backend
         showMessage('You are already logged in. Redirecting...', 'info');
         setTimeout(() => {
-            window.location.href = 'dashboard.html';
+            window.location.href = '/dashboard/dashboard.html';
         }, 1500);
     }
 });

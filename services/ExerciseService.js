@@ -18,14 +18,19 @@ class ExerciseService {
             throw err;
         }
 
+        console.log('ExerciseService: Getting goal for user:', userId); // Debug log
         const goal = await LearningModel.getUserGoal(userId);
+        console.log('ExerciseService: User goal found:', goal); // Debug log
+        
         if (!goal) {
             const err = new Error('User profile not found or goal is not set.');
             err.statusCode = 404;
             throw err;
         }
 
+        console.log('ExerciseService: Fetching exercises for goal:', goal); // Debug log
         const exercises = await ExerciseModel.getTopExercisesByGoal(goal);
+        console.log('ExerciseService: Exercises found:', exercises.length, exercises); // Debug log
 
         return { goal, exercises };
     }

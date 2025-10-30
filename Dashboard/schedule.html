@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fit Pulse - Schedule & Activities</title>
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="tracker.css">
+    <link rel="stylesheet" href="schedule.css">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading" class="loading-screen">
+        <div class="loading-spinner"></div>
+        <p>Loading your schedule...</p>
+    </div>
+
+    <!-- Main Content -->
+    <div id="main-content" style="display: none;">
+        <!-- Navigation Bar -->
+        <div class="navbar">
+            <div class="name">Fit Pulse</div>
+            <div class="content">
+                <a href="dashboard.html" class="dashboard">Dashboard</a>
+                <a href="schedule.html" class="activity active">Schedule</a>
+                <a href="calorie-tracker.html" class="nutrition">Nutrition</a>
+                <div class="profile" onclick="showProfile()">
+                    <i class="fa-regular fa-user fa-xs"></i>
+                    <span id="user-name">Profile</span>
+                </div>
+                <button onclick="logout()" class="logout-btn-nav">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Header Section -->
+        <div class="tracker-header">
+            <div class="header-content">
+                <h1><i class="fas fa-calendar-alt"></i> Schedule & Activities</h1>
+                <p>Plan your workouts, meals, and wellness activities</p>
+                <div class="date-selector">
+                    <button id="prev-week" class="date-btn"><i class="fas fa-chevron-left"></i></button>
+                    <span id="week-display" class="week-display">This Week</span>
+                    <button id="next-week" class="date-btn"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="summary-section">
+            <div class="summary-grid">
+                <div class="summary-card">
+                    <div class="card-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3 id="scheduled-activities">0</h3>
+                        <p>Scheduled Activities</p>
+                        <small>This week</small>
+                    </div>
+                </div>
+                <div class="summary-card">
+                    <div class="card-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3 id="completed-activities">0</h3>
+                        <p>Completed</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="completion-progress"></div>
+                        </div>
+                        <small id="completion-rate">0% completion rate</small>
+                    </div>
+                </div>
+                <div class="summary-card">
+                    <div class="card-icon">
+                        <i class="fas fa-fire"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3 id="streak-count">0</h3>
+                        <p>Day Streak</p>
+                        <small>Keep it up!</small>
+                    </div>
+                </div>
+                <div class="summary-card">
+                    <div class="card-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3 id="next-activity">--:--</h3>
+                        <p>Next Activity</p>
+                        <small id="next-activity-name">No upcoming activities</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Activity Section -->
+        <div class="add-activity-section">
+            <div class="section-header">
+                <h2><i class="fas fa-plus-circle"></i> Schedule New Activity</h2>
+                <button id="template-btn" class="quick-add-btn">
+                    <i class="fas fa-copy"></i> Use Template
+                </button>
+            </div>
+            
+            <form id="activity-form" class="activity-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="activity-date">Date</label>
+                        <input type="date" id="activity-date" name="scheduled_date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="activity-time">Time</label>
+                        <input type="time" id="activity-time" name="scheduled_time" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="activity-type">Activity Type</label>
+                        <select id="activity-type" name="activity_type" required>
+                            <option value="">Select type</option>
+                            <option value="Exercise">Exercise</option>
+                            <option value="Meal">Meal</option>
+                            <option value="Meditation">Meditation</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="activity-details">Activity Details</label>
+                        <input type="text" id="activity-details" name="activity_details" placeholder="e.g., Morning Run, Breakfast, Mindfulness Session" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="activity-notes">Notes (Optional)</label>
+                        <textarea id="activity-notes" name="notes" placeholder="Additional details, reminders, or goals for this activity"></textarea>
+                    </div>
+                </div>
+                
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-plus"></i> Schedule Activity
+                </button>
+            </form>
+        </div>
+
+        <!-- Weekly Calendar View -->
+        <div class="calendar-section">
+            <div class="section-header">
+                <h2><i class="fas fa-calendar-week"></i> Weekly Schedule</h2>
+                <div class="view-toggle">
+                    <button id="list-view" class="view-btn">
+                        <i class="fas fa-list"></i> List
+                    </button>
+                    <button id="calendar-view" class="view-btn active">
+                        <i class="fas fa-calendar"></i> Calendar
+                    </button>
+                </div>
+            </div>
+            
+            <div id="calendar-container" class="calendar-container">
+                <div class="calendar-grid" id="calendar-grid">
+                    <!-- Calendar will be populated by JavaScript -->
+                </div>
+            </div>
+            
+            <div id="list-container" class="list-container" style="display: none;">
+                <div id="activities-list" class="activities-list">
+                    <!-- Activities list will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Activity Templates Modal -->
+        <div id="templates-modal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <span class="close" onclick="closeTemplates()">&times;</span>
+                <h2><i class="fas fa-copy"></i> Activity Templates</h2>
+                <p>Choose from pre-made activity templates based on your goal:</p>
+                <div class="templates-grid" id="templates-grid">
+                    <!-- Templates will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Activity Details Modal -->
+        <div id="activity-modal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <span class="close" onclick="closeActivityModal()">&times;</span>
+                <div id="activity-details-content">
+                    <!-- Activity details will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Modal -->
+        <div id="profile-modal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <span class="close" onclick="closeProfile()">&times;</span>
+                <h2>Profile Information</h2>
+                <div class="profile-info">
+                    <p><strong>Name:</strong> <span id="profile-name">-</span></p>
+                    <p><strong>Email:</strong> <span id="profile-email">-</span></p>
+                    <p><strong>Goal:</strong> <span id="profile-goal">-</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success/Error Messages -->
+    <div id="message-container" class="message-container"></div>
+
+    <script src="schedule.js"></script>
+</body>
+</html>

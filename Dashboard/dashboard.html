@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fit Pulse - Dashboard</title>
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="dashboard.css" />
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading" class="loading-screen">
+        <div class="loading-spinner"></div>
+        <p>Loading your personalized dashboard...</p>
+    </div>
+
+    <!-- Error Screen -->
+    <div id="error" class="error-screen" style="display: none;">
+        <div class="error-content">
+            <i class="fas fa-exclamation-triangle"></i>
+            <h2>Something went wrong</h2>
+            <p id="error-message">Unable to load your dashboard. Please try again.</p>
+            <button onclick="location.reload()" class="retry-btn">Retry</button>
+            <button onclick="logout()" class="logout-btn">Logout</button>
+        </div>
+    </div>
+
+    <!-- Main Dashboard -->
+    <div id="dashboard" style="display: none;">
+        <!-- Navigation Bar -->
+        <div class="navbar">
+            <div class="name">Fit Pulse</div>
+            <div class="content">
+                <a href="#" class="dashboard active">Dashboard</a>
+                <a href="#" class="activity">Activity</a>
+                <a href="#" class="nutrition">Nutrition</a>
+                <div class="profile" onclick="showProfile()">
+                    <i class="fa-regular fa-user fa-xs"></i>
+                    <span id="user-name">Profile</span>
+                </div>
+                <button onclick="logout()" class="logout-btn-nav">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Welcome Section -->
+        <div class="welcome-section">
+            <h1>Welcome back, <span id="welcome-name">User</span>!</h1>
+            <p>Your <span id="goal-type">fitness</span> journey continues here.</p>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="main-container">
+            <!-- Goal-specific Hero Section -->
+            <div class="hero-section" id="hero-section">
+                <div class="hero-content">
+                    <div class="goal-card">
+                        <div class="goal-title" id="goal-title">Your Goal</div>
+                        <div class="goal-action">
+                            <button class="start-btn" id="main-start-btn">Start Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Stats -->
+            <div class="stats-section">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-fire"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="calories-today">0</h3>
+                            <p>Calories Today</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-bed"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="sleep-hours">0h</h3>
+                            <p>Avg Sleep</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="completed-activities">0</h3>
+                            <p>Activities Done</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-calendar-day"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="days-tracked">0</h3>
+                            <p>Days Tracked</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Cards -->
+            <div class="action-section">
+                <div class="action-grid">
+                    <div class="action-card" onclick="openSleepTracker()">
+                        <div class="action-icon">
+                            <i class="fas fa-moon"></i>
+                        </div>
+                        <div class="action-content">
+                            <h3>Sleep Tracker</h3>
+                            <p>Track your sleep patterns</p>
+                        </div>
+                        <button class="action-btn">Start</button>
+                    </div>
+                    <div class="action-card" onclick="openNutrition()">
+                        <div class="action-icon">
+                            <i class="fas fa-utensils"></i>
+                        </div>
+                        <div class="action-content">
+                            <h3>Diet & Calories</h3>
+                            <p>Log your meals and nutrition</p>
+                        </div>
+                        <button class="action-btn">Start</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Modal -->
+        <div id="profile-modal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <span class="close" onclick="closeProfile()">&times;</span>
+                <h2>Profile Information</h2>
+                <div class="profile-info">
+                    <p><strong>Name:</strong> <span id="profile-name">-</span></p>
+                    <p><strong>Email:</strong> <span id="profile-email">-</span></p>
+                    <p><strong>Age:</strong> <span id="profile-age">-</span></p>
+                    <p><strong>Diet Type:</strong> <span id="profile-diet">-</span></p>
+                    <p><strong>Goal:</strong> <span id="profile-goal">-</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>

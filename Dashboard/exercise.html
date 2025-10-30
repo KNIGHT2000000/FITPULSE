@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fit Pulse - Exercise & Training</title>
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="exercise.css">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading" class="loading-screen">
+        <div class="loading-spinner"></div>
+        <p>Loading your personalized workout...</p>
+    </div>
+
+    <!-- Main Content -->
+    <div id="main-content" style="display: none;">
+        <!-- Navigation Bar -->
+        <div class="navbar">
+            <div class="name">Fit Pulse</div>
+            <div class="content">
+                <a href="dashboard.html" class="dashboard">Dashboard</a>
+                <a href="exercise.html" class="activity active">Exercise</a>
+                <a href="calorie-tracker.html" class="nutrition">Nutrition</a>
+                <div class="profile" onclick="showProfile()">
+                    <i class="fa-regular fa-user fa-xs"></i>
+                    <span id="user-name">Profile</span>
+                </div>
+                <button onclick="logout()" class="logout-btn-nav">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Hero Section -->
+        <div class="exercise-hero" id="exercise-hero">
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1 id="goal-title">Your Fitness Journey</h1>
+                    <p id="goal-description">Personalized exercises designed for your goals</p>
+                    <div class="goal-badge" id="goal-badge">
+                        <i class="fas fa-target"></i>
+                        <span id="current-goal">Loading...</span>
+                    </div>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat-card">
+                        <div class="stat-number" id="total-exercises">3</div>
+                        <div class="stat-label">Recommended Exercises</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="estimated-calories">300</div>
+                        <div class="stat-label">Est. Calories Burned</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="total-duration">90</div>
+                        <div class="stat-label">Total Minutes</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Learning Module Section -->
+        <div class="learning-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2><i class="fas fa-graduation-cap"></i> Learning Module</h2>
+                    <p>Master the fundamentals for your fitness goal</p>
+                </div>
+                <div class="learning-card" id="learning-card">
+                    <div class="learning-content">
+                        <h3 id="learning-title">Loading...</h3>
+                        <div class="learning-text" id="learning-content">
+                            Loading your personalized learning content...
+                        </div>
+                        <div class="learning-actions">
+                            <button class="btn-primary" onclick="expandLearning()">
+                                <i class="fas fa-expand-alt"></i> Read More
+                            </button>
+                            <button class="btn-secondary" onclick="markAsRead()">
+                                <i class="fas fa-check"></i> Mark as Read
+                            </button>
+                        </div>
+                    </div>
+                    <div class="learning-visual">
+                        <div class="learning-icon" id="learning-icon">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recommended Exercises Section -->
+        <div class="exercises-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2><i class="fas fa-dumbbell"></i> Recommended Exercises</h2>
+                    <p>Top 3 exercises tailored for your fitness goal</p>
+                </div>
+                <div class="exercises-grid" id="exercises-grid">
+                    <!-- Exercises will be populated by JavaScript -->
+                    <div class="exercise-placeholder">
+                        <div class="placeholder-animation"></div>
+                        <p>Loading exercises...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions Section -->
+        <div class="actions-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2><i class="fas fa-bolt"></i> Quick Actions</h2>
+                    <p>Get started with your fitness journey</p>
+                </div>
+                <div class="actions-grid">
+                    <div class="action-card" onclick="startWorkout()">
+                        <div class="action-icon">
+                            <i class="fas fa-play-circle"></i>
+                        </div>
+                        <h3>Start Workout</h3>
+                        <p>Begin your personalized exercise routine</p>
+                    </div>
+                    <div class="action-card" onclick="scheduleWorkout()">
+                        <div class="action-icon">
+                            <i class="fas fa-calendar-plus"></i>
+                        </div>
+                        <h3>Schedule Workout</h3>
+                        <p>Plan your exercise sessions</p>
+                    </div>
+                    <div class="action-card" onclick="trackProgress()">
+                        <div class="action-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>Track Progress</h3>
+                        <p>Monitor your fitness journey</p>
+                    </div>
+                    <div class="action-card" onclick="findMoreExercises()">
+                        <div class="action-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <h3>Explore More</h3>
+                        <p>Discover additional exercises</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exercise Detail Modal -->
+        <div id="exercise-modal" class="modal" style="display: none;">
+            <div class="modal-content exercise-modal-content">
+                <span class="close" onclick="closeExerciseModal()">&times;</span>
+                <div class="exercise-modal-header">
+                    <img id="modal-exercise-image" src="" alt="Exercise" class="modal-exercise-img">
+                    <div class="exercise-modal-info">
+                        <h2 id="modal-exercise-name">Exercise Name</h2>
+                        <div class="exercise-badges">
+                            <span class="badge difficulty" id="modal-difficulty">Beginner</span>
+                            <span class="badge focus" id="modal-focus">Cardio</span>
+                        </div>
+                        <div class="exercise-stats">
+                            <div class="stat">
+                                <i class="fas fa-clock"></i>
+                                <span id="modal-duration">30 min</span>
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-fire"></i>
+                                <span id="modal-calories">200 cal</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="exercise-modal-body">
+                    <div class="exercise-description">
+                        <h3>Description</h3>
+                        <p id="modal-description">Exercise description will appear here...</p>
+                    </div>
+                    <div class="exercise-video">
+                        <h3>Video Tutorial</h3>
+                        <div class="video-placeholder" id="video-container">
+                            <i class="fab fa-youtube"></i>
+                            <p>YouTube tutorial will be available here</p>
+                            <button class="btn-youtube" id="youtube-btn" onclick="openYouTube()" style="display: none;">
+                                <i class="fab fa-youtube"></i> Watch on YouTube
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="exercise-modal-actions">
+                    <button class="btn-primary" onclick="startThisExercise()">
+                        <i class="fas fa-play"></i> Start Exercise
+                    </button>
+                    <button class="btn-secondary" onclick="addToSchedule()">
+                        <i class="fas fa-calendar-plus"></i> Add to Schedule
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Learning Expanded Modal -->
+        <div id="learning-modal" class="modal" style="display: none;">
+            <div class="modal-content learning-modal-content">
+                <span class="close" onclick="closeLearningModal()">&times;</span>
+                <div class="learning-modal-header">
+                    <h2 id="modal-learning-title">Learning Module</h2>
+                    <div class="goal-context" id="modal-goal-context">
+                        <i class="fas fa-target"></i>
+                        <span id="modal-goal-name">Your Goal</span>
+                    </div>
+                </div>
+                <div class="learning-modal-body">
+                    <div class="learning-full-content" id="modal-learning-content">
+                        <!-- Full learning content will be displayed here -->
+                    </div>
+                </div>
+                <div class="learning-modal-actions">
+                    <button class="btn-primary" onclick="markAsRead()">
+                        <i class="fas fa-check"></i> Mark as Completed
+                    </button>
+                    <button class="btn-secondary" onclick="closeLearningModal()">
+                        <i class="fas fa-times"></i> Close
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Modal -->
+        <div id="profile-modal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <span class="close" onclick="closeProfile()">&times;</span>
+                <h2>Profile Information</h2>
+                <div class="profile-info">
+                    <p><strong>Name:</strong> <span id="profile-name">-</span></p>
+                    <p><strong>Email:</strong> <span id="profile-email">-</span></p>
+                    <p><strong>Goal:</strong> <span id="profile-goal">-</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success/Error Messages -->
+    <div id="message-container" class="message-container"></div>
+
+    <script src="exercise.js"></script>
+</body>
+</html>

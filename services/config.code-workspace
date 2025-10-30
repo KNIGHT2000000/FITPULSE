@@ -23,6 +23,9 @@
 		},
 		{
 			"path": "../flexi signin"
+		},
+		{
+			"path": "../Dashboard"
 		}
 	],
 	"settings": {

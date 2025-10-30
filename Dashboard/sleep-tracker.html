@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fit Pulse - Sleep Tracker</title>
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="tracker.css">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading" class="loading-screen">
+        <div class="loading-spinner"></div>
+        <p>Loading sleep tracker...</p>
+    </div>
+
+    <!-- Main Content -->
+    <div id="main-content" style="display: none;">
+        <!-- Navigation Bar -->
+        <div class="navbar">
+            <div class="name">Fit Pulse</div>
+            <div class="content">
+                <a href="dashboard.html" class="dashboard">Dashboard</a>
+                <a href="sleep-tracker.html" class="activity active">Activity</a>
+                <a href="calorie-tracker.html" class="nutrition">Nutrition</a>
+                <div class="profile" onclick="showProfile()">
+                    <i class="fa-regular fa-user fa-xs"></i>
+                    <span id="user-name">Profile</span>
+                </div>
+                <button onclick="logout()" class="logout-btn-nav">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Header Section -->
+        <div class="tracker-header">
+            <div class="header-content">
+                <h1><i class="fas fa-moon"></i> Sleep Tracker</h1>
+                <p>Monitor your sleep patterns and improve your rest quality</p>
+                <div class="date-selector">
+                    <button id="prev-date" class="date-btn"><i class="fas fa-chevron-left"></i></button>
+                    <input type="date" id="selected-date" class="date-input">
+                    <button id="next-date" class="date-btn"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sleep Summary Cards -->
+        <div class="summary-section">
+            <div class="summary-grid">
+                <div class="summary-card sleep">
+                    <div class="card-icon">
+                        <i class="fas fa-bed"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3 id="sleep-duration">0h 0m</h3>
+                        <p>Sleep Duration</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="duration-progress"></div>
+                        </div>
+                        <small>Goal: 8 hours</small>
+                    </div>
+                </div>
+                <div class="summary-card quality">
+                    <div class="card-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3 id="sleep-quality">-</h3>
+                        <p>Sleep Quality</p>
+                        <div class="quality-stars" id="quality-stars">
+                            <i class="far fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                        <small id="quality-text">No data</small>
+                    </div>
+                </div>
+                <div class="summary-card sleep">
+                    <div class="card-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3 id="bedtime">--:--</h3>
+                        <p>Bedtime</p>
+                        <small id="bedtime-consistency">Consistency: --</small>
+                    </div>
+                </div>
+                <div class="summary-card sleep">
+                    <div class="card-icon">
+                        <i class="fas fa-sun"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3 id="wake-time">--:--</h3>
+                        <p>Wake Time</p>
+                        <small id="wake-consistency">Consistency: --</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Sleep Entry Section -->
+        <div class="add-sleep-section">
+            <div class="section-header">
+                <h2><i class="fas fa-plus-circle"></i> Log Sleep Entry</h2>
+                <button id="quick-sleep-btn" class="quick-add-btn">
+                    <i class="fas fa-bolt"></i> Quick Log
+                </button>
+            </div>
+            
+            <form id="sleep-form" class="sleep-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="sleep-date">Sleep Date</label>
+                        <input type="date" id="sleep-date" name="sleep_date" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="start-time">Bedtime</label>
+                        <div class="time-input-group">
+                            <input type="time" id="start-time" name="start_time" required>
+                            <span>to</span>
+                            <input type="time" id="end-time" name="end_time" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Duration</label>
+                        <div class="duration-display" id="duration-display">
+                            Calculate duration by selecting times
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Sleep Quality</label>
+                        <div class="quality-selector">
+                            <div class="quality-option" data-quality="Poor">
+                                <i class="fas fa-frown"></i>
+                                <p>Poor</p>
+                            </div>
+                            <div class="quality-option" data-quality="Fair">
+                                <i class="fas fa-meh"></i>
+                                <p>Fair</p>
+                            </div>
+                            <div class="quality-option" data-quality="Good">
+                                <i class="fas fa-smile"></i>
+                                <p>Good</p>
+                            </div>
+                            <div class="quality-option" data-quality="Excellent">
+                                <i class="fas fa-grin-stars"></i>
+                                <p>Excellent</p>
+                            </div>
+                        </div>
+                        <input type="hidden" id="quality-rating" name="quality_rating">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="sleep-notes">Notes (Optional)</label>
+                        <textarea id="sleep-notes" name="notes" placeholder="How did you sleep? Any factors that affected your sleep?"></textarea>
+                    </div>
+                </div>
+                
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-plus"></i> Log Sleep Entry
+                </button>
+            </form>
+        </div>
+
+        <!-- Sleep History Section -->
+        <div class="entries-section">
+            <div class="section-header">
+                <h2><i class="fas fa-history"></i> Sleep History</h2>
+                <div class="entries-filter">
+                    <select id="period-filter">
+                        <option value="7">Last 7 days</option>
+                        <option value="30">Last 30 days</option>
+                        <option value="90">Last 3 months</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div id="entries-container" class="entries-container">
+                <div class="no-entries">
+                    <i class="fas fa-moon"></i>
+                    <p>No sleep entries recorded</p>
+                    <small>Start logging your sleep to track patterns!</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sleep Insights Section -->
+        <div class="insights-section">
+            <div class="section-header">
+                <h2><i class="fas fa-chart-line"></i> Sleep Insights</h2>
+            </div>
+            
+            <div class="insights-grid">
+                <div class="insight-card">
+                    <h3>Weekly Average</h3>
+                    <div class="insight-value" id="weekly-average">0h 0m</div>
+                    <p>Average sleep duration this week</p>
+                </div>
+                <div class="insight-card">
+                    <h3>Sleep Debt</h3>
+                    <div class="insight-value" id="sleep-debt">0h 0m</div>
+                    <p>Hours below recommended 8h sleep</p>
+                </div>
+                <div class="insight-card">
+                    <h3>Best Sleep Day</h3>
+                    <div class="insight-value" id="best-sleep-day">-</div>
+                    <p>Day with highest quality sleep</p>
+                </div>
+                <div class="insight-card">
+                    <h3>Sleep Consistency</h3>
+                    <div class="insight-value" id="sleep-consistency">-%</div>
+                    <p>How consistent your sleep schedule is</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Sleep Modal -->
+        <div id="quick-sleep-modal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <span class="close" onclick="closeQuickSleep()">&times;</span>
+                <h2><i class="fas fa-bolt"></i> Quick Sleep Log</h2>
+                <p>How many hours did you sleep last night?</p>
+                <div class="quick-sleep-options">
+                    <button class="quick-sleep-btn" onclick="quickSleep(6)">6 hours</button>
+                    <button class="quick-sleep-btn" onclick="quickSleep(7)">7 hours</button>
+                    <button class="quick-sleep-btn" onclick="quickSleep(8)">8 hours</button>
+                    <button class="quick-sleep-btn" onclick="quickSleep(9)">9 hours</button>
+                </div>
+                <p><small>This will estimate your bedtime and wake time</small></p>
+            </div>
+        </div>
+
+        <!-- Profile Modal -->
+        <div id="profile-modal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <span class="close" onclick="closeProfile()">&times;</span>
+                <h2>Profile Information</h2>
+                <div class="profile-info">
+                    <p><strong>Name:</strong> <span id="profile-name">-</span></p>
+                    <p><strong>Email:</strong> <span id="profile-email">-</span></p>
+                    <p><strong>Goal:</strong> <span id="profile-goal">-</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success/Error Messages -->
+    <div id="message-container" class="message-container"></div>
+
+    <script src="sleep-tracker.js"></script>
+</body>
+</html>

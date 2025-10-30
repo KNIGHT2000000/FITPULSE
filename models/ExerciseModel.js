@@ -13,19 +13,23 @@ class ExerciseModel {
      */
     static async getTopExercisesByGoal(goal) {
         const normalizedGoal = typeof goal === 'string' ? goal.trim() : goal;
+        console.log('ExerciseModel: Getting exercises for goal:', normalizedGoal); // Debug log
 
         const query = `
             SELECT name, description, image_url, difficulty, focus_area
-            FROM Exercises
+            FROM exercises
             WHERE LOWER(goal_type) = LOWER(?)
+            ORDER BY exercise_id
             LIMIT 3
         `;
 
+        console.log('ExerciseModel: Executing query:', query, 'with goal:', normalizedGoal); // Debug log
         const [rows] = await pool.query(query, [normalizedGoal]);
+        console.log('ExerciseModel: Exercise query result:', rows.length, 'exercises found:', rows); // Debug log
         return rows;
     }
 }
 
 module.exports = ExerciseModel;
-
+                                        
 

@@ -70,7 +70,10 @@ CREATE TABLE Exercises (
     description TEXT,
     goal_type ENUM('Weight Loss', 'Muscle Gain', 'Mental Peace') NOT NULL,
     difficulty ENUM('Beginner', 'Intermediate', 'Advanced'),
-    focus_area VARCHAR(100) -- e.g., 'Cardio', 'Upper Body', 'Meditation'
+    focus_area VARCHAR(100), -- e.g., 'Cardio', 'Upper Body', 'Meditation'
+    image_url VARCHAR(500), -- URL for exercise image/gif
+    duration_minutes INT DEFAULT 30, -- Recommended duration
+    calories_burned INT DEFAULT 100 -- Estimated calories burned
 );
 
 -- 7. User Scheduling (Planned exercises/activities)
@@ -79,9 +82,12 @@ CREATE TABLE UserSchedules (
     user_id VARCHAR(36) NOT NULL,
     scheduled_date DATE NOT NULL,
     scheduled_time TIME NOT NULL,
-    activity_type ENUM('Exercise', 'Meal', 'Meditation') NOT NULL,
-    activity_details VARCHAR(255), -- Name of exercise or meal plan reference
-    is_completed BOOLEAN DEFAULT FALSE,
+    activity_type ENUM('Exercise', 'Meal', 'Meditation', 'Sleep') NOT NULL,
+    activity_details VARCHAR(255) NOT NULL, -- Name of exercise or meal plan reference
+    notes TEXT, -- Additional notes for the activity
+    status ENUM('pending', 'completed', 'cancelled') DEFAULT 'pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    completed_at TIMESTAMP NULL,
     FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE
 );
 
@@ -89,9 +95,13 @@ CREATE TABLE UserSchedules (
 CREATE TABLE Notifications (
     notification_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id VARCHAR(36) NOT NULL,
+    title VARCHAR(255) NOT NULL,
     message TEXT NOT NULL,
     is_read BOOLEAN DEFAULT FALSE,
-    send_time TIMESTAMP NOT NULL, -- When the notification is scheduled to be sent
-    type ENUM('Quote', 'Reminder', 'Alert') NOT NULL,
+    scheduled_time TIMESTAMP NOT NULL, -- When the notification is scheduled to be sent
+    sent_at TIMESTAMP NULL, -- When the notification was actually sent
+    type ENUM('quote', 'reminder', 'alert', 'activity_reminder') NOT NULL,
+    reference_id INT NULL, -- Reference to related record (e.g., schedule_id for activity reminders)
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE
 );

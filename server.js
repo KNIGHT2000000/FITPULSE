@@ -21,27 +21,29 @@ app.use((req, res, next) => {
     }
 });
 
-// --- Database Connection Setup ---
-const db = require('./config/db');
+// Import database connection
+const { pool } = require('./config/db');
 
-// Import routes
-const authRoutes = require('./routes/authRoutes'); 
+// Import route modules
+const authRoutes = require('./routes/authRoutes');
+const dashboardRoutes = require('./routes/dashboardRoutes');
 const trackingRoutes = require('./routes/trackingRoutes');
-const learningRoutes = require('./routes/learningRoutes');
 const exerciseRoutes = require('./routes/exerciseRoutes');
-const schedulingRoutes = require('./routes/schedulingRoutes');
+const scheduleRoutes = require('./routes/scheduleRoutes');
 const NotificationWorker = require('./services/NotificationWorker');
 
 // API Routes (must come before static files)
 app.use('/api/auth', authRoutes);
-
+app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/track', trackingRoutes);
-app.use('/api/learning', learningRoutes);
 app.use('/api/exercises', exerciseRoutes);
-app.use('/api/schedule', schedulingRoutes);
+app.use('/api/schedule', scheduleRoutes);
 
 // Serve static files from the flexi signin directory (after API routes)
 app.use(express.static(path.join(__dirname, 'flexi signin')));
+
+// Serve static files from the Dashboard directory
+app.use('/dashboard', express.static(path.join(__dirname, 'Dashboard')));
 
 // Simple health check endpoint
 app.get('/', (req, res) => {
@@ -49,23 +51,29 @@ app.get('/', (req, res) => {
 });
 
 // Test DB connection on startup
-db.getConnection()
-    .then(() => {
+async function startServer() {
+    try {
+        // Test database connection
+        await pool.query('SELECT 1');
         console.log('[Database] MySQL connected successfully.');
 
         // Start the server only if the database connection is successful
         app.listen(PORT, () => {
             console.log(`[Server] Server running on http://localhost:${PORT}`);
             console.log(`[Project] Goal: Implement Auth, Profiles, Tracking, and Scheduling.`);
+            
             // Start background worker for notifications (every minute)
             NotificationWorker.start(60000);
         });
-    })
-    .catch(err => {
+    } catch (err) {
         console.error('[Database] MySQL connection failed:', err.message);
         console.error('Exiting application due to database error.');
         process.exit(1); // Exit process if DB connection fails
-    });
+    }
+}
+
+// Start the server
+startServer();
 
 // ---------------------------------------------------------------------
 // 2. Route Definitions (Will be added in subsequent steps)

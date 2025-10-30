@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fit Pulse - Calorie Tracker</title>
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="tracker.css">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading" class="loading-screen">
+        <div class="loading-spinner"></div>
+        <p>Loading calorie tracker...</p>
+    </div>
+
+    <!-- Main Content -->
+    <div id="main-content" style="display: none;">
+        <!-- Navigation Bar -->
+        <div class="navbar">
+            <div class="name">Fit Pulse</div>
+            <div class="content">
+                <a href="dashboard.html" class="dashboard">Dashboard</a>
+                <a href="#" class="activity">Activity</a>
+                <a href="calorie-tracker.html" class="nutrition active">Nutrition</a>
+                <div class="profile" onclick="showProfile()">
+                    <i class="fa-regular fa-user fa-xs"></i>
+                    <span id="user-name">Profile</span>
+                </div>
+                <button onclick="logout()" class="logout-btn-nav">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Header Section -->
+        <div class="tracker-header">
+            <div class="header-content">
+                <h1><i class="fas fa-utensils"></i> Calorie Tracker</h1>
+                <p>Track your daily nutrition and reach your goals</p>
+                <div class="date-selector">
+                    <button id="prev-date" class="date-btn"><i class="fas fa-chevron-left"></i></button>
+                    <input type="date" id="selected-date" class="date-input">
+                    <button id="next-date" class="date-btn"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Daily Summary Cards -->
+        <div class="summary-section">
+            <div class="summary-grid">
+                <div class="summary-card calories">
+                    <div class="card-icon">
+                        <i class="fas fa-fire"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3 id="total-calories">0</h3>
+                        <p>Total Calories</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="calories-progress"></div>
+                        </div>
+                        <small id="calories-goal">Goal: 2000 kcal</small>
+                    </div>
+                </div>
+                <div class="summary-card protein">
+                    <div class="card-icon">
+                        <i class="fas fa-drumstick-bite"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3 id="total-protein">0g</h3>
+                        <p>Protein</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="protein-progress"></div>
+                        </div>
+                        <small id="protein-goal">Goal: 150g</small>
+                    </div>
+                </div>
+                <div class="summary-card carbs">
+                    <div class="card-icon">
+                        <i class="fas fa-bread-slice"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3 id="total-carbs">0g</h3>
+                        <p>Carbohydrates</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="carbs-progress"></div>
+                        </div>
+                        <small id="carbs-goal">Goal: 250g</small>
+                    </div>
+                </div>
+                <div class="summary-card fats">
+                    <div class="card-icon">
+                        <i class="fas fa-cheese"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3 id="total-fats">0g</h3>
+                        <p>Fats</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="fats-progress"></div>
+                        </div>
+                        <small id="fats-goal">Goal: 67g</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Food Section -->
+        <div class="add-food-section">
+            <div class="section-header">
+                <h2><i class="fas fa-plus-circle"></i> Add Food Entry</h2>
+                <button id="quick-add-btn" class="quick-add-btn">
+                    <i class="fas fa-bolt"></i> Quick Add
+                </button>
+            </div>
+            
+            <form id="food-form" class="food-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="meal-type">Meal Type</label>
+                        <select id="meal-type" name="meal_type" required>
+                            <option value="">Select meal type</option>
+                            <option value="Breakfast">Breakfast</option>
+                            <option value="Lunch">Lunch</option>
+                            <option value="Dinner">Dinner</option>
+                            <option value="Snack">Snack</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="food-item">Food Item</label>
+                        <input type="text" id="food-item" name="food_item" placeholder="e.g., Grilled Chicken Breast" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="calories">Calories</label>
+                        <input type="number" id="calories" name="calories" placeholder="0" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="protein">Protein (g)</label>
+                        <input type="number" id="protein" name="protein_g" placeholder="0" min="0" step="0.1">
+                    </div>
+                    <div class="form-group">
+                        <label for="carbs">Carbs (g)</label>
+                        <input type="number" id="carbs" name="carbs_g" placeholder="0" min="0" step="0.1">
+                    </div>
+                    <div class="form-group">
+                        <label for="fats">Fats (g)</label>
+                        <input type="number" id="fats" name="fats_g" placeholder="0" min="0" step="0.1">
+                    </div>
+                </div>
+                
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-plus"></i> Add Food Entry
+                </button>
+            </form>
+        </div>
+
+        <!-- Food Entries List -->
+        <div class="entries-section">
+            <div class="section-header">
+                <h2><i class="fas fa-list"></i> Today's Entries</h2>
+                <div class="entries-filter">
+                    <select id="meal-filter">
+                        <option value="">All Meals</option>
+                        <option value="Breakfast">Breakfast</option>
+                        <option value="Lunch">Lunch</option>
+                        <option value="Dinner">Dinner</option>
+                        <option value="Snack">Snack</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div id="entries-container" class="entries-container">
+                <div class="no-entries">
+                    <i class="fas fa-utensils"></i>
+                    <p>No food entries for this date</p>
+                    <small>Add your first meal above to get started!</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Add Modal -->
+        <div id="quick-add-modal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <span class="close" onclick="closeQuickAdd()">&times;</span>
+                <h2><i class="fas fa-bolt"></i> Quick Add</h2>
+                <p>Select from common foods:</p>
+                <div class="quick-foods-grid" id="quick-foods-grid">
+                    <!-- Quick foods will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Modal -->
+        <div id="profile-modal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <span class="close" onclick="closeProfile()">&times;</span>
+                <h2>Profile Information</h2>
+                <div class="profile-info">
+                    <p><strong>Name:</strong> <span id="profile-name">-</span></p>
+                    <p><strong>Email:</strong> <span id="profile-email">-</span></p>
+                    <p><strong>Goal:</strong> <span id="profile-goal">-</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success/Error Messages -->
+    <div id="message-container" class="message-container"></div>
+
+    <script src="calorie-tracker.js"></script>
+</body>
+</html>

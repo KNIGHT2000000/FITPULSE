@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Redirect to dashboard after 2 seconds
                 setTimeout(() => {
-                    window.location.href = 'dashboard.html';
+                    window.location.href = '/dashboard/dashboard.html';
                 }, 2000);
             } else {
                 showMessage(data.message || 'Registration failed. Please try again.', 'error');
