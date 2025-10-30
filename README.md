@@ -1,6 +1,7 @@
-# Fitness Tracker Backend with Frontend Integration
+# Fitness Tracker Backend with Frontend Integration From Vyomesh shukla and team
 
 A comprehensive fitness tracking application with user authentication, goal setting, and personalized recommendations.
+
 
 ## Features
 
